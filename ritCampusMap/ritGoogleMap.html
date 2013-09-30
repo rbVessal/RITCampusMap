@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name = "viewport" content = "initial-scale = 1.0, user-scalable = no"/>
+		<style type = "text/css">
+			html
+			{
+				height: 100%;
+			}
+			body
+			{
+				height: 100%; 
+				margin: 0;
+				padding: 0;
+			}
+			#map_canvas
+			{
+				height:100%;
+				width:100%;
+			}
+		</style>
+		<script type = "text/javascript" 
+		src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyDM_xvgQ-hJYFRG7zj0TJ7lFPLxCLJAvdQ&sensor=false">
+		</script>
+		<script type = "text/javascript">
+		
+			var map, infowindow;
+			function initialize()
+			{
+				var myOptions = {
+				center: new google.maps.LatLng(43.085157, -77.674499),
+				zoom: 17,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				
+				map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			}
+			
+			google.maps.event.addDomListener(window, 'load', initialize);
+			
+			$(window).bind('hashchange', function() {
+                    var newHash = window.location.hash.substring(1);
+                   var a = newHash.split("&");
+                   //addItem(a[0], a[1]);
+                   alert(a[0]);
+                    //zoomTo();
+                });
+			
+			function zoomTo(latitude, longitude, buildingName, buildingAcronymnNumber, image, buildingDescription)
+			{
+				var position = new google.maps.LatLng(latitude, longitude);
+				map.setCenter(position);
+				map.setZoom(17);
+				
+				//Close old info window and make a new one
+				if(infowindow)
+				{
+					infowindow.close();
+				}
+				infowindow = new google.maps.InfoWindow({
+				map:map,
+				position: position,
+				content: "<strong>" + buildingName + "</strong>" + "<br/>" + buildingAcronymnNumber + "<br/>"
+				+ "<img src = " + image + " alt = '' style='border:1px solid black;'/>" + "<br/>" + buildingDescription
+				});
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div id = "map_canvas"/>
+	</body>
+</html>
